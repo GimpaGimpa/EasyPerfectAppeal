@@ -28,20 +28,20 @@ def perfect_click(timing):
 def mental_input():
     mental_maximum = input('メンタル値 -> ')
     mental_maximum = float(mental_maximum)
-    mental = {'above91' : int(mental_maximum * THRESHOLD_1),\
-                'above71' : int(mental_maximum * THRESHOLD_2),\
-                'above51' : int(mental_maximum * THRESHOLD_3),\
-                'above10' : int(mental_maximum * THRESHOLD_4)}
+    mental = {'threshold91' : int(mental_maximum * THRESHOLD_1),\
+                'threshold71' : int(mental_maximum * THRESHOLD_2),\
+                'threshold51' : int(mental_maximum * THRESHOLD_3),\
+                'threshold10' : int(mental_maximum * THRESHOLD_4)}
     display_message(mental)
 
     #メッセージ表示関数
 def display_message(mental):
     print('\n*****************************************')
     print('\n攻撃対象にカーソル合わせてキーを押してね\n')
-    print('Alt + 1  ..  %d↑'%mental['above91'])
-    print('Alt + 2  ..  %d↑'%mental['above71'])
-    print('Alt + 3  ..  %d↑'%mental['above51'])
-    print('Alt + 4  ..  %d↑'%mental['above10'])
+    print('Alt + 1  ..  %d↑'%mental['threshold91'])
+    print('Alt + 2  ..  %d↑'%mental['threshold71'])
+    print('Alt + 3  ..  %d↑'%mental['threshold51'])
+    print('Alt + 4  ..  %d↑'%mental['threshold10'])
     print('Alt + 5  ..  ~0\n')
     print('Alt + Q  ..  メンタル再入力')
     print('esc      ..  終了')
