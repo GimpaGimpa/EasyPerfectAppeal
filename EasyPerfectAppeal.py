@@ -27,12 +27,16 @@ def perfect_click(timing):
     #メンタル値入力関数
 def mental_input():
     mental_maximum = input('メンタル値 -> ')
-    mental_maximum = float(mental_maximum)
-    mental = {'threshold91' : int(mental_maximum * THRESHOLD_1),\
+    try:
+        mental_maximum = float(mental_maximum)
+        mental = {'threshold91' : int(mental_maximum * THRESHOLD_1),\
                 'threshold71' : int(mental_maximum * THRESHOLD_2),\
                 'threshold51' : int(mental_maximum * THRESHOLD_3),\
                 'threshold10' : int(mental_maximum * THRESHOLD_4)}
-    display_message(mental)
+        display_message(mental)
+    except:
+        print('数字を入力してね')
+        mental_input()
 
     #メッセージ表示関数
 def display_message(mental):
@@ -66,7 +70,7 @@ while True:
     if(ctypes.windll.user32.GetAsyncKeyState(0x35)&ctypes.windll.user32.GetAsyncKeyState(0x12)&0x8000):
         perfect_click(MENTAL_20)
     if(ctypes.windll.user32.GetAsyncKeyState(0x51)&ctypes.windll.user32.GetAsyncKeyState(0x12)&0x8000):
-        pyautogui.press('backspace')
+        pyautogui.press('esc')#おかしい
         mental_input()
     if(ctypes.windll.user32.GetAsyncKeyState(0x1B)&0x8000):
         break
