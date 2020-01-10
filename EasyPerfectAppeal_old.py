@@ -6,11 +6,11 @@ import pyautogui
 import ctypes
 
 #タイミング定数
-MENTAL_100 = 1
-MENTAL_90 = 0.9
-MENTAL_70 = 0.7
-MENTAL_50 = 0.5
-MENTAL_20 = 0.3
+MENTAL_100 = 1.35
+MENTAL_90 = 1.235
+MENTAL_70 = 1.2
+MENTAL_50 = 1.104
+MENTAL_20 = 0.99
 
 #アピールバー閾値定数
 THRESHOLD_1 = 0.91
