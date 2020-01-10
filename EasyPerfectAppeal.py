@@ -6,13 +6,20 @@ from PIL import ImageGrab
 from PIL import Image
 import numpy as np
 import ctypes
+import pyautogui
 
 #基幹部
 def auto_perfect_appeal():
+    pyautogui.click()
     hwnd = win32gui.GetForegroundWindow()
     capture_position = get_capture_position(hwnd)
+
+    #while True:
     img = capture_screen(capture_position)
     print(perfect_calc(img,img.shape[0]))
+    #if perfect_calc(img,img.shape[0]) < ???:
+        #pyautogui.click()
+        #break
 
 #キャプチャ座標取得
 def get_capture_position(hwnd):
