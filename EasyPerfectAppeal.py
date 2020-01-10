@@ -1,76 +1,51 @@
 # coding: utf-8
-import time
-import sys
-sys.path.append('/usr/local/lib/python3.8/site-packages')
+import win32gui
+import win32con
 import pyautogui
+from PIL import ImageGrab
+from PIL import Image
+import numpy as np
 import ctypes
 
-#タイミング定数
-MENTAL_100 = 1
-MENTAL_90 = 0.9
-MENTAL_70 = 0.7
-MENTAL_50 = 0.5
-MENTAL_20 = 0.3
+#基幹部
+def auto_perfect_appeal():
+    hwnd = win32gui.GetForegroundWindow()
+    capture_position = get_capture_position(hwnd)
+    img = capture_screen(capture_position)
+    print(perfect_calc(img,img.shape[0]))
 
-#アピールバー閾値定数
-THRESHOLD_1 = 0.91
-THRESHOLD_2 = 0.71
-THRESHOLD_3 = 0.51
-THRESHOLD_4 = 0.1
+#キャプチャ座標取得
+def get_capture_position(hwnd):
+    rect = win32gui.GetWindowRect(hwnd)
+    x1 = rect[0] + 9
+    y1 = rect[1] + 9
+    x2 = rect[2] - 9
+    y2 = rect[3] - 9
+    return [x1,y1,x2,y2]
 
-#自動クリック関数
-def perfect_click(timing):
-    pyautogui.click()
-    time.sleep(timing)
-    pyautogui.click()
+#実際にキャプチャ
+def capture_screen(capture_position):
+    grabed_image = ImageGrab.grab()
+    trimmed_image = grabed_image.crop(capture_position)
+    #trimmed_image.save('test.jpg')
+    return np.asarray(trimmed_image)
 
-    #メンタル値入力関数
-def mental_input():
-    mental_maximum = input('メンタル値 -> ')
-    try:
-        mental_maximum = float(mental_maximum)
-        mental = {'threshold91' : int(mental_maximum * THRESHOLD_1),\
-                'threshold71' : int(mental_maximum * THRESHOLD_2),\
-                'threshold51' : int(mental_maximum * THRESHOLD_3),\
-                'threshold10' : int(mental_maximum * THRESHOLD_4)}
-        display_message(mental)
-    except:
-        print('数字を入力してね')
-        mental_input()
+#PERFECTピクセル数算出
+def perfect_calc(img, array_size):
+    true_amount = 0
+    for num in range(array_size):
+        tmp_list = np.all(img[num] == 255, axis=1).tolist()
+        true_amount += tmp_list.count(True)
+    else:
+        return true_amount
 
-    #メッセージ表示関数
-def display_message(mental):
-    print('\n*****************************************')
-    print('\n攻撃対象にカーソル合わせてキーを押してね\n')
-    print('Alt + 1  ..  %d↑'%mental['threshold91'])
-    print('Alt + 2  ..  %d↑'%mental['threshold71'])
-    print('Alt + 3  ..  %d↑'%mental['threshold51'])
-    print('Alt + 4  ..  %d↑'%mental['threshold10'])
-    print('Alt + 5  ..  ~0\n')
-    print('Alt + Q  ..  メンタル再入力')
-    print('esc      ..  終了')
-    print('\n動作中........')
+############################################################
+############################################################
+############################################################
 
-################################################################
-################################################################
-################################################################
-
-mental_input()
-
+#0x12..Altキー 0x31~..12345 0x51..Q
 while True:
-    #0x12..Altキー 0x31~..12345 0x51..Q
     if(ctypes.windll.user32.GetAsyncKeyState(0x31)&ctypes.windll.user32.GetAsyncKeyState(0x12)&0x8000):
-        perfect_click(MENTAL_100)
-    if(ctypes.windll.user32.GetAsyncKeyState(0x32)&ctypes.windll.user32.GetAsyncKeyState(0x12)&0x8000):
-        perfect_click(MENTAL_90)
-    if(ctypes.windll.user32.GetAsyncKeyState(0x33)&ctypes.windll.user32.GetAsyncKeyState(0x12)&0x8000):
-        perfect_click(MENTAL_70)
-    if(ctypes.windll.user32.GetAsyncKeyState(0x34)&ctypes.windll.user32.GetAsyncKeyState(0x12)&0x8000):
-        perfect_click(MENTAL_50)
-    if(ctypes.windll.user32.GetAsyncKeyState(0x35)&ctypes.windll.user32.GetAsyncKeyState(0x12)&0x8000):
-        perfect_click(MENTAL_20)
-    if(ctypes.windll.user32.GetAsyncKeyState(0x51)&ctypes.windll.user32.GetAsyncKeyState(0x12)&0x8000):
-        pyautogui.press('esc')#おかしい
-        mental_input()
+        auto_perfect_appeal()
     if(ctypes.windll.user32.GetAsyncKeyState(0x1B)&0x8000):
         break
